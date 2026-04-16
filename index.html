@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EstateVista — Premium Real Estate</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Leaflet Map Library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 :root {
   --gold: #C9A96E;
@@ -348,6 +351,9 @@ section { padding: 6rem 2rem; }
   width: 100%; height: 100%; position: relative;
   background: linear-gradient(135deg, #1a2a3a 0%, #0a1a2a 100%);
   display: flex; align-items: center; justify-content: center;
+}
+#map {
+  width: 100%; height: 100%; z-index: 1;
 }
 .map-grid {
   position: absolute; inset: 0;
@@ -975,38 +981,7 @@ footer {
       <h2 class="section-title" style="color:var(--white);margin-bottom:2rem">Properties on Map</h2>
       <div class="map-wrapper">
         <div class="map-container">
-          <div class="map-placeholder">
-            <div class="map-grid"></div>
-            <!-- Map Pins -->
-            <div class="map-pin" style="left:25%;top:35%" onclick="showToast('₹1.2Cr — Sea View Villa')">
-              <div class="pin-price">₹1.2Cr</div>
-              <div class="pin-dot"></div>
-            </div>
-            <div class="map-pin" style="left:45%;top:25%" onclick="showToast('₹85L — City Apartment')">
-              <div class="pin-price">₹85L</div>
-              <div class="pin-dot"></div>
-            </div>
-            <div class="map-pin" style="left:60%;top:55%" onclick="showToast('₹2.5Cr — Luxury Penthouse')">
-              <div class="pin-price">₹2.5Cr</div>
-              <div class="pin-dot"></div>
-            </div>
-            <div class="map-pin" style="left:35%;top:65%" onclick="showToast('₹65L — Garden Apartment')">
-              <div class="pin-price">₹65L</div>
-              <div class="pin-dot"></div>
-            </div>
-            <div class="map-pin" style="left:72%;top:30%" onclick="showToast('₹3.8Cr — Estate Villa')">
-              <div class="pin-price">₹3.8Cr</div>
-              <div class="pin-dot"></div>
-            </div>
-            <div class="map-pin" style="left:18%;top:58%" onclick="showToast('₹45L — Starter Home')">
-              <div class="pin-price">₹45L</div>
-              <div class="pin-dot"></div>
-            </div>
-            <!-- Map Label -->
-            <div style="position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:rgba(255,255,255,0.5);padding:6px 16px;border-radius:4px;font-size:0.72rem;letter-spacing:1px">
-              INTERACTIVE MAP — CLICK PINS TO EXPLORE
-            </div>
-          </div>
+          <div id="map"></div>
         </div>
         <div class="map-list" id="map-list"></div>
       </div>
@@ -1477,8 +1452,13 @@ function renderAgents() {
   document.getElementById('agents-grid').innerHTML = agents.map(makeAgentCard).join('');
 }
 
+let mapInstance = null;
+let mapMarkers = [];
+
 function renderMap() {
   const mapProps = properties.slice(0,6);
+  
+  // Render sidebar list
   document.getElementById('map-list').innerHTML = mapProps.map(p=>`
     <div class="map-card" onclick="showDetail(${p.id})">
       <div class="map-card-img" style="overflow:hidden;background:linear-gradient(135deg,${getGrad(p.id)});display:flex;align-items:center;justify-content:center">
@@ -1493,6 +1473,68 @@ function renderMap() {
         </div>
       </div>
     </div>`).join('');
+  
+  // Initialize Leaflet map
+  if (mapInstance) mapInstance.remove();
+  
+  // Chennai coordinates (default center)
+  const mapCenter = [13.0827, 80.2707];
+  
+  mapInstance = L.map('map').setView(mapCenter, 12);
+  
+  // Add OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(mapInstance);
+  
+  // Clear old markers
+  mapMarkers.forEach(marker => marker.remove());
+  mapMarkers = [];
+  
+  // Property coordinates (approximate positions around Chennai)
+  const coordinates = [
+    [13.0485, 80.2842],  // Besant Nagar
+    [13.0592, 80.2440],  // T Nagar
+    [13.0015, 80.2749],  // Adyar
+    [13.0717, 80.2355],  // Nungambakkam
+    [13.0027, 80.2634],  // Mylapore
+    [13.0150, 80.3200]   // OMR
+  ];
+  
+  // Create custom icon with price
+  const createCustomIcon = (price) => {
+    return L.divIcon({
+      html: `<div style="background:var(--gold);color:var(--charcoal);padding:4px 8px;border-radius:4px;font-size:0.7rem;font-weight:500;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.3)">${price}</div>`,
+      iconSize: null,
+      className: ''
+    });
+  };
+  
+  // Add markers for each property
+  mapProps.forEach((p, i) => {
+    const coords = coordinates[i] || [13.0827 + Math.random()*0.1, 80.2707 + Math.random()*0.1];
+    const marker = L.marker(coords, {
+      icon: createCustomIcon(p.price)
+    }).bindPopup(`
+      <div style="font-family:'DM Sans',sans-serif;width:200px">
+        <div style="font-weight:600;color:var(--charcoal);margin-bottom:4px">${p.title}</div>
+        <div style="font-size:0.85rem;color:var(--text-body);margin-bottom:8px">${p.location}</div>
+        <div style="color:var(--gold);font-weight:600;font-size:1.1rem;margin-bottom:8px">${p.price}</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:10px">${p.beds>0?p.beds+'BHK · '+p.sqft.toLocaleString()+' sqft':'Plot · '+p.sqft.toLocaleString()+' sqft'}</div>
+        <button class="btn-primary" style="width:100%;padding:8px;font-size:0.8rem;border:none;border-radius:4px;background:var(--charcoal);color:white;cursor:pointer" onclick="showDetail(${p.id});return false;">View Details</button>
+      </div>
+    `, {
+      maxWidth: 250
+    }).addTo(mapInstance);
+    mapMarkers.push(marker);
+  });
+  
+  // Fit map to show all markers
+  if (mapMarkers.length > 0) {
+    const group = new L.featureGroup(mapMarkers);
+    mapInstance.fitBounds(group.getBounds().pad(0.1));
+  }
 }
 
 function renderAdmin() {
