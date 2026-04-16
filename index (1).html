@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EstateVista — Premium Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A96E;
+  --gold-dark: #A07840;
+  --gold-light: #E8D5B0;
+  --charcoal: #1A1A1A;
+  --charcoal-mid: #2D2D2D;
+  --charcoal-light: #3D3D3D;
+  --cream: #F8F5F0;
+  --cream-dark: #EDE8DF;
+  --white: #FFFFFF;
+  --text-muted: #888880;
+  --text-body: #444440;
+  --border: rgba(201,169,110,0.2);
+  --border-strong: rgba(201,169,110,0.5);
+  --success: #3B6D11;
+  --danger: #A32D2D;
+  --shadow-sm: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-md: 0 8px 32px rgba(0,0,0,0.12);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.18);
+  --radius: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+h1,h2,h3,h4 { font-family: 'Cormorant Garamond', serif; color: var(--charcoal); }
+
+/* NAVIGATION */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(26,26,26,0.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 600;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: rgba(255,255,255,0.75);
+  text-decoration: none; font-size: 0.85rem;
+  font-weight: 400; letter-spacing: 0.5px;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--gold); }
+.nav-actions { display: flex; gap: 1rem; align-items: center; }
+.btn-nav {
+  padding: 8px 20px; border-radius: var(--radius);
+  font-size: 0.82rem; font-weight: 500; cursor: pointer;
+  transition: all 0.2s; letter-spacing: 0.3px;
+  font-family: 'DM Sans', sans-serif;
+}
+.btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: var(--white); }
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+.btn-gold { background: var(--gold); border: 1px solid var(--gold); color: var(--charcoal); font-weight: 500; }
+.btn-gold:hover { background: var(--gold-dark); border-color: var(--gold-dark); }
+.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: white; margin: 4px 0; transition: all 0.3s; }
+
+/* PAGE SECTIONS */
+.page { display: none; }
+.page.active { display: block; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex; align-items: center;
+  background: var(--charcoal);
+  overflow: hidden;
+  padding-top: 72px;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 40%, #2a1f10 100%);
+}
+.hero-pattern {
+  position: absolute; inset: 0; opacity: 0.04;
+  background-image: repeating-linear-gradient(45deg, var(--gold) 0, var(--gold) 1px, transparent 0, transparent 50%);
+  background-size: 30px 30px;
+}
+.hero-image-col {
+  position: absolute; right: 0; top: 72px; bottom: 0; width: 52%;
+  overflow: hidden;
+}
+.hero-img {
+  width: 100%; height: 100%; object-fit: cover; opacity: 0.6;
+  background: linear-gradient(135deg, #2a4a3a 0%, #1a2a4a 50%, #3a2a1a 100%);
+}
+.hero-img-placeholder {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #2a3a4a 0%, #1a2a3a 50%, #0a1a2a 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8rem; opacity: 0.3;
+}
+.hero-overlay {
+  position: absolute; right: 0; top: 0; bottom: 0; width: 52%;
+  background: linear-gradient(to right, var(--charcoal) 0%, transparent 40%);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 4rem 2rem 4rem 6rem;
+  max-width: 640px;
+}
+.hero-badge {
+  display: inline-block;
+  border: 1px solid var(--border-strong);
+  color: var(--gold);
+  padding: 6px 16px; border-radius: 2px;
+  font-size: 0.72rem; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-size: clamp(2.8rem, 5vw, 4.2rem);
+  font-weight: 300; line-height: 1.1;
+  color: var(--white); margin-bottom: 1.5rem;
+  letter-spacing: -0.5px;
+}
+.hero h1 em { color: var(--gold); font-style: normal; }
+.hero p {
+  color: rgba(255,255,255,0.6);
+  font-size: 1rem; font-weight: 300;
+  line-height: 1.7; max-width: 420px;
+  margin-bottom: 2.5rem;
+}
+.hero-stats {
+  display: flex; gap: 2rem; margin-bottom: 3rem;
+}
+.stat-item { }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--gold); font-weight: 500; }
+.stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.4); letter-spacing: 0.5px; margin-top: -4px; }
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary {
+  padding: 14px 32px; background: var(--gold);
+  color: var(--charcoal); border: none; border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+  cursor: pointer; letter-spacing: 0.3px; transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--gold-dark); transform: translateY(-1px); }
+.btn-outline {
+  padding: 14px 32px; background: transparent;
+  color: var(--white); border: 1px solid rgba(255,255,255,0.3);
+  border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem; font-weight: 400; cursor: pointer; transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+/* SEARCH BAR */
+.search-section {
+  background: var(--white);
+  box-shadow: var(--shadow-lg);
+  border-top: 3px solid var(--gold);
+}
+.search-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+.search-tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--cream-dark); }
+.search-tab {
+  padding: 10px 24px; border: none; background: none;
+  font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+  cursor: pointer; color: var(--text-muted);
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: all 0.2s;
+}
+.search-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.search-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 1rem; align-items: end;
+}
+.search-field label {
+  display: block; font-size: 0.72rem;
+  color: var(--text-muted); letter-spacing: 0.8px;
+  text-transform: uppercase; margin-bottom: 6px; font-weight: 500;
+}
+.search-field input, .search-field select {
+  width: 100%; padding: 11px 14px;
+  border: 1px solid var(--cream-dark); border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  color: var(--charcoal); background: var(--cream);
+  outline: none; transition: border 0.2s;
+}
+.search-field input:focus, .search-field select:focus { border-color: var(--gold); background: var(--white); }
+.btn-search {
+  padding: 12px 32px; background: var(--charcoal);
+  color: var(--white); border: none; border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  font-weight: 500; cursor: pointer; transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn-search:hover { background: var(--gold); color: var(--charcoal); }
+
+/* SECTION STYLES */
+section { padding: 6rem 2rem; }
+.container { max-width: 1200px; margin: 0 auto; }
+.section-tag {
+  display: inline-block; font-size: 0.72rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.75rem; font-weight: 500;
+}
+.section-title { font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 300; margin-bottom: 1rem; line-height: 1.2; }
+.section-subtitle { color: var(--text-muted); font-size: 0.95rem; max-width: 480px; line-height: 1.7; }
+.section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; gap: 2rem; }
+
+/* PROPERTY CARDS */
+.properties-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem; }
+.property-card {
+  background: var(--white); border-radius: var(--radius-lg);
+  overflow: hidden; box-shadow: var(--shadow-sm);
+  transition: all 0.3s; cursor: pointer; border: 1px solid transparent;
+}
+.property-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--border); }
+.card-image {
+  position: relative; height: 240px; overflow: hidden;
+  background: linear-gradient(135deg, #2a3a4a, #1a2a3a);
+}
+.card-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 4rem; color: rgba(255,255,255,0.15);
+}
+.card-badge {
+  position: absolute; top: 1rem; left: 1rem;
+  background: var(--charcoal); color: var(--gold);
+  padding: 4px 12px; border-radius: 2px;
+  font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;
+}
+.card-badge.sale { background: var(--gold); color: var(--charcoal); }
+.card-fav {
+  position: absolute; top: 1rem; right: 1rem;
+  background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 16px; cursor: pointer; transition: all 0.2s;
+}
+.card-fav:hover { background: white; color: var(--danger); }
+.card-fav.active { background: white; color: var(--danger); }
+.card-price-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  padding: 2rem 1.25rem 1rem;
+}
+.card-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; color: var(--white); font-weight: 500;
+}
+.card-body { padding: 1.25rem; }
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 500;
+  color: var(--charcoal); margin-bottom: 0.4rem; line-height: 1.3;
+}
+.card-location { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; }
+.card-location::before { content: '📍 '; font-size: 10px; }
+.card-specs {
+  display: flex; gap: 1.2rem;
+  border-top: 1px solid var(--cream-dark);
+  padding-top: 1rem; margin-top: 0.5rem;
+}
+.spec { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); }
+.spec-icon { font-size: 14px; }
+.spec strong { color: var(--charcoal); }
+.card-agent {
+  display: flex; align-items: center; gap: 10px;
+  border-top: 1px solid var(--cream-dark); padding-top: 1rem; margin-top: 1rem;
+}
+.agent-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--gold); color: var(--charcoal);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 600;
+}
+.agent-info { flex: 1; }
+.agent-name { font-size: 0.8rem; font-weight: 500; color: var(--charcoal); }
+.agent-role { font-size: 0.72rem; color: var(--text-muted); }
+.card-wa {
+  padding: 6px 12px; background: #25D366; color: white;
+  border: none; border-radius: var(--radius); font-size: 0.75rem;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  white-space: nowrap; transition: all 0.2s;
+}
+.card-wa:hover { background: #128C7E; }
+
+/* FILTERS */
+.filters-bar {
+  background: var(--white); border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem; margin-bottom: 2rem;
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  align-items: center; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--cream-dark);
+}
+.filter-chip {
+  padding: 6px 16px; border-radius: 20px;
+  border: 1px solid var(--cream-dark);
+  background: var(--cream); font-size: 0.8rem;
+  color: var(--text-muted); cursor: pointer; transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.filter-chip.active { background: var(--charcoal); color: var(--white); border-color: var(--charcoal); }
+.filter-chip:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+.filter-select {
+  padding: 6px 12px; border: 1px solid var(--cream-dark);
+  border-radius: 20px; background: var(--cream);
+  font-size: 0.8rem; color: var(--text-muted);
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  outline: none;
+}
+.filter-count {
+  margin-left: auto; font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.filter-count strong { color: var(--gold); }
+
+/* MAP SECTION */
+.map-section { background: var(--charcoal); padding: 6rem 2rem; }
+.map-wrapper {
+  display: grid; grid-template-columns: 1fr 400px; gap: 2rem;
+  align-items: start;
+}
+.map-container {
+  height: 500px; border-radius: var(--radius-lg);
+  overflow: hidden; position: relative;
+  background: #1a2a3a;
+}
+.map-placeholder {
+  width: 100%; height: 100%; position: relative;
+  background: linear-gradient(135deg, #1a2a3a 0%, #0a1a2a 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.map-grid {
+  position: absolute; inset: 0;
+  background-image: 
+    linear-gradient(rgba(201,169,110,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,169,110,0.1) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.map-pin {
+  position: absolute; cursor: pointer;
+  transform: translate(-50%, -100%);
+  transition: all 0.2s;
+}
+.map-pin:hover { transform: translate(-50%, -100%) scale(1.1); z-index: 10; }
+.pin-dot {
+  width: 36px; height: 36px; border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg); background: var(--gold);
+  border: 2px solid var(--white); box-shadow: var(--shadow-md);
+  display: flex; align-items: center; justify-content: center;
+}
+.pin-dot::after {
+  content: ''; display: block;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--charcoal); transform: rotate(45deg);
+}
+.pin-price {
+  position: absolute; bottom: 42px; left: 50%;
+  transform: translateX(-50%); background: var(--charcoal);
+  color: var(--gold); padding: 3px 8px; border-radius: var(--radius);
+  font-size: 0.7rem; white-space: nowrap; font-weight: 500;
+  box-shadow: var(--shadow-sm);
+}
+.map-list {
+  display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; max-height: 500px;
+}
+.map-card {
+  background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 1rem;
+  display: flex; gap: 1rem; cursor: pointer; transition: all 0.2s;
+}
+.map-card:hover { background: rgba(201,169,110,0.1); border-color: var(--border-strong); }
+.map-card-img {
+  width: 80px; height: 70px; border-radius: var(--radius);
+  flex-shrink: 0; background: linear-gradient(135deg, #2a3a4a, #1a2a3a);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: rgba(255,255,255,0.2);
+}
+.map-card-info { flex: 1; }
+.map-card-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; color: var(--gold); font-weight: 500;
+}
+.map-card-title { font-size: 0.82rem; color: rgba(255,255,255,0.8); margin: 2px 0; }
+.map-card-loc { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+
+/* USER ACCOUNTS */
+.auth-overlay {
+  display: none; position: fixed; inset: 0; z-index: 2000;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  align-items: center; justify-content: center;
+}
+.auth-overlay.show { display: flex; }
+.auth-modal {
+  background: var(--white); border-radius: var(--radius-lg);
+  padding: 2.5rem; width: 460px; max-width: 95vw;
+  position: relative; box-shadow: var(--shadow-lg);
+}
+.auth-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: none; font-size: 1.2rem;
+  cursor: pointer; color: var(--text-muted);
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.auth-close:hover { background: var(--cream-dark); color: var(--charcoal); }
+.auth-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 500; color: var(--charcoal);
+  margin-bottom: 0.25rem; text-align: center;
+}
+.auth-logo span { color: var(--gold); }
+.auth-sub { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; }
+.role-selector {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem; margin-bottom: 1.5rem;
+}
+.role-btn {
+  padding: 0.75rem; border: 1px solid var(--cream-dark);
+  border-radius: var(--radius-md); background: var(--cream);
+  cursor: pointer; text-align: center; transition: all 0.2s;
+}
+.role-btn.active { border-color: var(--gold); background: rgba(201,169,110,0.08); }
+.role-icon { font-size: 1.4rem; margin-bottom: 4px; }
+.role-label { font-size: 0.75rem; color: var(--text-muted); }
+.role-btn.active .role-label { color: var(--gold); }
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; letter-spacing: 0.5px; }
+.form-group input {
+  width: 100%; padding: 11px 14px;
+  border: 1px solid var(--cream-dark); border-radius: var(--radius-md);
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  color: var(--charcoal); outline: none; transition: border 0.2s;
+  background: var(--cream);
+}
+.form-group input:focus { border-color: var(--gold); background: var(--white); }
+.btn-full {
+  width: 100%; padding: 13px;
+  background: var(--charcoal); color: var(--white);
+  border: none; border-radius: var(--radius-md);
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  font-weight: 500; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem;
+}
+.btn-full:hover { background: var(--gold); color: var(--charcoal); }
+.auth-switch { text-align: center; margin-top: 1rem; font-size: 0.82rem; color: var(--text-muted); }
+.auth-switch a { color: var(--gold); cursor: pointer; text-decoration: none; }
+.auth-divider {
+  display: flex; align-items: center; gap: 1rem;
+  margin: 1rem 0; color: var(--text-muted); font-size: 0.78rem;
+}
+.auth-divider::before, .auth-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--cream-dark);
+}
+
+/* ENQUIRY FORM */
+.enquiry-section { background: var(--charcoal); }
+.enquiry-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.enquiry-info h2 { color: var(--white); font-size: 2.5rem; font-weight: 300; margin-bottom: 1rem; }
+.enquiry-info p { color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 2rem; }
+.contact-methods { display: flex; flex-direction: column; gap: 1rem; }
+.contact-method {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem; border-radius: var(--radius-md);
+  border: 1px solid var(--border); transition: all 0.2s;
+  cursor: pointer;
+}
+.contact-method:hover { border-color: var(--border-strong); background: rgba(201,169,110,0.05); }
+.method-icon {
+  width: 44px; height: 44px; border-radius: var(--radius);
+  background: rgba(201,169,110,0.1); display: flex;
+  align-items: center; justify-content: center;
+  font-size: 1.2rem; flex-shrink: 0;
+}
+.method-title { font-size: 0.85rem; color: rgba(255,255,255,0.8); font-weight: 500; }
+.method-sub { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+.enquiry-form {
+  background: var(--white); border-radius: var(--radius-lg);
+  padding: 2.5rem; box-shadow: var(--shadow-lg);
+}
+.enquiry-form h3 {
+  font-size: 1.3rem; margin-bottom: 0.3rem;
+}
+.enquiry-form p { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group textarea {
+  width: 100%; padding: 11px 14px;
+  border: 1px solid var(--cream-dark); border-radius: var(--radius-md);
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  color: var(--charcoal); outline: none; transition: border 0.2s;
+  background: var(--cream); resize: vertical; min-height: 100px;
+}
+.form-group textarea:focus { border-color: var(--gold); background: var(--white); }
+.btn-wa {
+  display: flex; align-items: center; gap: 8px;
+  padding: 13px 24px; background: #25D366; color: white;
+  border: none; border-radius: var(--radius-md);
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  font-weight: 500; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem;
+  width: 100%; justify-content: center;
+}
+.btn-wa:hover { background: #128C7E; transform: translateY(-1px); }
+
+/* ADMIN DASHBOARD */
+.admin-section { background: var(--cream); }
+.admin-layout { display: grid; grid-template-columns: 240px 1fr; gap: 2rem; }
+.admin-sidebar {
+  background: var(--charcoal); border-radius: var(--radius-lg);
+  padding: 1.5rem; height: fit-content;
+  position: sticky; top: 90px;
+}
+.admin-user {
+  display: flex; align-items: center; gap: 12px;
+  padding-bottom: 1.25rem; border-bottom: 1px solid var(--border);
+  margin-bottom: 1.25rem;
+}
+.admin-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--gold); color: var(--charcoal);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 0.9rem;
+}
+.admin-name { font-size: 0.9rem; color: var(--white); font-weight: 500; }
+.admin-role-badge {
+  font-size: 0.65rem; color: var(--gold);
+  background: rgba(201,169,110,0.15); padding: 2px 8px;
+  border-radius: 10px; border: 1px solid var(--border);
+}
+.admin-nav { list-style: none; }
+.admin-nav li { margin-bottom: 4px; }
+.admin-nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: var(--radius-md);
+  color: rgba(255,255,255,0.55); font-size: 0.85rem;
+  cursor: pointer; transition: all 0.2s; text-decoration: none;
+}
+.admin-nav a:hover, .admin-nav a.active {
+  background: rgba(201,169,110,0.1); color: var(--gold);
+}
+.admin-nav .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+.admin-main { }
+.admin-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1.5rem;
+}
+.admin-title { font-size: 1.5rem; font-weight: 300; }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.stat-card {
+  background: var(--white); border-radius: var(--radius-md);
+  padding: 1.25rem; border: 1px solid var(--cream-dark);
+  box-shadow: var(--shadow-sm);
+}
+.stat-card-label { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 0.5rem; }
+.stat-card-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem; color: var(--charcoal); font-weight: 500; line-height: 1;
+}
+.stat-card-change { font-size: 0.75rem; margin-top: 4px; }
+.stat-card-change.up { color: var(--success); }
+.stat-card-change.down { color: var(--danger); }
+.admin-table-container {
+  background: var(--white); border-radius: var(--radius-lg);
+  border: 1px solid var(--cream-dark); overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.table-header {
+  padding: 1.25rem 1.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--cream-dark);
+}
+.table-title { font-size: 1rem; font-weight: 500; }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  padding: 0.75rem 1.5rem; text-align: left;
+  font-size: 0.72rem; font-weight: 500;
+  color: var(--text-muted); letter-spacing: 0.8px;
+  text-transform: uppercase; background: var(--cream);
+  border-bottom: 1px solid var(--cream-dark);
+}
+tbody td {
+  padding: 1rem 1.5rem; font-size: 0.85rem;
+  color: var(--text-body); border-bottom: 1px solid var(--cream-dark);
+  vertical-align: middle;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: var(--cream); }
+.status-pill {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 500;
+}
+.status-active { background: #EAF3DE; color: var(--success); }
+.status-pending { background: #FAEEDA; color: #854F0B; }
+.status-sold { background: #FCEBEB; color: var(--danger); }
+.action-btn {
+  padding: 5px 12px; border-radius: var(--radius);
+  border: 1px solid var(--cream-dark); background: none;
+  font-size: 0.75rem; cursor: pointer; transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif; color: var(--text-muted);
+}
+.action-btn:hover { border-color: var(--gold); color: var(--gold); }
+.action-btn.del:hover { border-color: var(--danger); color: var(--danger); }
+
+/* AGENTS */
+.agents-section { background: var(--white); }
+.agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+.agent-card {
+  border: 1px solid var(--cream-dark); border-radius: var(--radius-lg);
+  padding: 1.75rem; text-align: center; transition: all 0.3s;
+  cursor: pointer; background: var(--cream);
+}
+.agent-card:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: var(--shadow-md); background: var(--white); }
+.agent-photo {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  margin: 0 auto 1rem; display: flex; align-items: center;
+  justify-content: center; font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; color: var(--charcoal); font-weight: 500;
+  border: 3px solid var(--white); box-shadow: var(--shadow-sm);
+}
+.agent-card-name { font-size: 1.1rem; font-weight: 500; margin-bottom: 3px; }
+.agent-card-title { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem; }
+.agent-stats-row { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.25rem; }
+.agent-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--gold); }
+.agent-stat-label { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.btn-agent {
+  width: 100%; padding: 9px; border: 1px solid var(--charcoal);
+  background: none; border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+  cursor: pointer; transition: all 0.2s; color: var(--charcoal);
+}
+.btn-agent:hover { background: var(--charcoal); color: var(--white); }
+
+/* PROPERTY DETAIL MODAL */
+.detail-overlay {
+  display: none; position: fixed; inset: 0; z-index: 1500;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+  overflow-y: auto; padding: 2rem 1rem;
+}
+.detail-overlay.show { display: block; }
+.detail-modal {
+  max-width: 960px; margin: 0 auto;
+  background: var(--white); border-radius: var(--radius-lg);
+  overflow: hidden; box-shadow: var(--shadow-lg);
+}
+.detail-close {
+  position: fixed; top: 1.5rem; right: 2rem;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--white); border: none; font-size: 1.2rem;
+  cursor: pointer; box-shadow: var(--shadow-md); z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+}
+.detail-image {
+  height: 400px; background: linear-gradient(135deg, #1a2a3a, #0a1a2a);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 6rem; color: rgba(255,255,255,0.1); position: relative;
+}
+.detail-image-badge {
+  position: absolute; top: 1.5rem; left: 1.5rem;
+  background: var(--gold); color: var(--charcoal);
+  padding: 6px 16px; border-radius: 2px;
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 1px;
+}
+.detail-body { padding: 2rem; }
+.detail-header { display: flex; justify-content: space-between; align-items: start; gap: 2rem; margin-bottom: 1.5rem; }
+.detail-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem; color: var(--charcoal); font-weight: 500;
+}
+.detail-title { font-size: 1.4rem; margin-bottom: 0.3rem; }
+.detail-loc { font-size: 0.85rem; color: var(--text-muted); }
+.detail-features {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1rem; margin: 1.5rem 0; padding: 1.5rem;
+  background: var(--cream); border-radius: var(--radius-md);
+}
+.detail-feature { text-align: center; }
+.detail-feat-icon { font-size: 1.4rem; margin-bottom: 4px; }
+.detail-feat-val { font-size: 1rem; font-weight: 500; color: var(--charcoal); }
+.detail-feat-label { font-size: 0.72rem; color: var(--text-muted); }
+.detail-desc { font-size: 0.9rem; line-height: 1.7; color: var(--text-body); margin-bottom: 1.5rem; }
+.detail-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-enquire {
+  flex: 1; padding: 13px; background: var(--charcoal); color: var(--white);
+  border: none; border-radius: var(--radius-md);
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  font-weight: 500; cursor: pointer; transition: all 0.2s;
+  min-width: 160px;
+}
+.btn-enquire:hover { background: var(--gold); color: var(--charcoal); }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 3000;
+  background: var(--charcoal); color: var(--white);
+  padding: 12px 20px; border-radius: var(--radius-md);
+  font-size: 0.85rem; box-shadow: var(--shadow-lg);
+  border-left: 3px solid var(--gold);
+  transform: translateY(100px); opacity: 0;
+  transition: all 0.3s; pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* FOOTER */
+footer {
+  background: #111; padding: 4rem 2rem 2rem;
+  border-top: 1px solid var(--border);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem; max-width: 1200px; margin: 0 auto 3rem;
+}
+.footer-brand { }
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; color: var(--white); margin-bottom: 1rem;
+}
+.footer-logo span { color: var(--gold); }
+.footer-desc { font-size: 0.85rem; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 280px; margin-bottom: 1.5rem; }
+.social-links { display: flex; gap: 0.75rem; }
+.social-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.4); font-size: 14px; cursor: pointer; transition: all 0.2s;
+}
+.social-btn:hover { background: var(--gold); color: var(--charcoal); border-color: var(--gold); }
+.footer-col h4 { color: var(--white); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; margin-bottom: 1.25rem; letter-spacing: 0.5px; }
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 0.6rem; }
+.footer-col a {
+  color: rgba(255,255,255,0.4); font-size: 0.82rem;
+  text-decoration: none; transition: color 0.2s; cursor: pointer;
+}
+.footer-col a:hover { color: var(--gold); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 2rem; border-top: 1px solid var(--border);
+  max-width: 1200px; margin: 0 auto;
+}
+.footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+.footer-wa {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px; background: #25D366; color: white;
+  border: none; border-radius: var(--radius); cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 0.8rem; transition: all 0.2s;
+}
+.footer-wa:hover { background: #128C7E; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hamburger { display: block; }
+  .hero-image-col { display: none; }
+  .hero-content { padding: 4rem 2rem; max-width: 100%; }
+  .search-row { grid-template-columns: 1fr 1fr; }
+  .map-wrapper { grid-template-columns: 1fr; }
+  .enquiry-grid { grid-template-columns: 1fr; }
+  .admin-layout { grid-template-columns: 1fr; }
+  .admin-sidebar { position: static; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .detail-features { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .search-row { grid-template-columns: 1fr; }
+  .properties-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 1.25rem; }
+  section { padding: 4rem 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a class="nav-logo" onclick="showPage('home')">Estate<span>Vista</span></a>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+    <li><a onclick="showPage('listings')" id="nav-listings">Properties</a></li>
+    <li><a onclick="showPage('map')" id="nav-map">Map Search</a></li>
+    <li><a onclick="showPage('agents')" id="nav-agents">Agents</a></li>
+    <li><a onclick="showPage('admin')" id="nav-admin">Dashboard</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-nav btn-ghost" onclick="showAuth('login')">Sign In</button>
+    <button class="btn-nav btn-gold" onclick="showAuth('register')">List Property</button>
+  </div>
+  <button class="hamburger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-pattern"></div>
+    <div class="hero-image-col">
+      <img class="hero-img" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1400&q=85" alt="Luxury Property" style="width:100%;height:100%;object-fit:cover;opacity:0.65;" onerror="this.outerHTML='<div class=\'hero-img-placeholder\'>🏡</div>'">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Premium Real Estate Since 2003</div>
+      <h1>Find Your <em>Perfect</em> Home</h1>
+      <p>Discover exceptional properties curated for the discerning buyer. From luxury villas to urban apartments — your dream property awaits.</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">2,400+</div>
+          <div class="stat-label">Active Listings</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">840+</div>
+          <div class="stat-label">Happy Families</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">98</div>
+          <div class="stat-label">Expert Agents</div>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="showPage('listings')">Explore Properties</button>
+        <button class="btn-outline" onclick="showPage('map')">Map Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-section">
+    <div class="search-container">
+      <div class="search-tabs">
+        <button class="search-tab active" onclick="setTab(this,'buy')">Buy</button>
+        <button class="search-tab" onclick="setTab(this,'rent')">Rent</button>
+        <button class="search-tab" onclick="setTab(this,'commercial')">Commercial</button>
+        <button class="search-tab" onclick="setTab(this,'new')">New Projects</button>
+      </div>
+      <div class="search-row">
+        <div class="search-field">
+          <label>Location / City / Neighbourhood</label>
+          <input type="text" placeholder="e.g. Chennai, Bandra, Whitefield…">
+        </div>
+        <div class="search-field">
+          <label>Property Type</label>
+          <select>
+            <option>All Types</option>
+            <option>Apartment</option>
+            <option>Villa / House</option>
+            <option>Plot / Land</option>
+            <option>Commercial</option>
+            <option>Penthouse</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <label>Budget</label>
+          <select>
+            <option>Any Budget</option>
+            <option>Under ₹50L</option>
+            <option>₹50L – ₹1Cr</option>
+            <option>₹1Cr – ₹3Cr</option>
+            <option>₹3Cr – ₹5Cr</option>
+            <option>₹5Cr+</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <label>Bedrooms</label>
+          <select>
+            <option>Any BHK</option>
+            <option>1 BHK</option>
+            <option>2 BHK</option>
+            <option>3 BHK</option>
+            <option>4+ BHK</option>
+          </select>
+        </div>
+        <button class="btn-search" onclick="showPage('listings')">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED PROPERTIES -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Featured Listings</div>
+          <h2 class="section-title">Handpicked Properties</h2>
+          <p class="section-subtitle">Exceptional homes selected by our top agents for their quality, location, and value.</p>
+        </div>
+        <button class="btn-primary" onclick="showPage('listings')" style="white-space:nowrap">View All →</button>
+      </div>
+      <div class="properties-grid" id="home-featured"></div>
+    </div>
+  </section>
+
+  <!-- AGENTS -->
+  <section class="agents-section" style="padding:5rem 2rem">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Our Experts</div>
+          <h2 class="section-title">Meet the Agents</h2>
+        </div>
+        <button class="btn-primary" onclick="showPage('agents')">All Agents →</button>
+      </div>
+      <div class="agents-grid" id="home-agents"></div>
+    </div>
+  </section>
+</div>
+
+<!-- LISTINGS PAGE -->
+<div id="page-listings" class="page" style="padding-top:72px">
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Properties</div>
+          <h2 class="section-title">All Listings</h2>
+        </div>
+        <div style="display:flex;gap:0.75rem">
+          <select class="filter-select" onchange="filterProperties(this.value,'type')">
+            <option value="all">All Types</option>
+            <option value="apartment">Apartment</option>
+            <option value="villa">Villa</option>
+            <option value="penthouse">Penthouse</option>
+            <option value="plot">Plot</option>
+          </select>
+          <select class="filter-select" onchange="filterProperties(this.value,'sort')">
+            <option value="default">Sort: Default</option>
+            <option value="price-asc">Price ↑</option>
+            <option value="price-desc">Price ↓</option>
+          </select>
+        </div>
+      </div>
+      <div class="filters-bar">
+        <button class="filter-chip active" onclick="filterStatus('all',this)">All</button>
+        <button class="filter-chip" onclick="filterStatus('sale',this)">For Sale</button>
+        <button class="filter-chip" onclick="filterStatus('rent',this)">For Rent</button>
+        <button class="filter-chip" onclick="filterStatus('new',this)">New Launch</button>
+        <button class="filter-chip" onclick="filterStatus('featured',this)">Featured</button>
+        <span class="filter-count"><strong id="prop-count">12</strong> properties found</span>
+      </div>
+      <div class="properties-grid" id="listings-grid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- MAP PAGE -->
+<div id="page-map" class="page" style="padding-top:72px">
+  <section class="map-section">
+    <div class="container">
+      <div class="section-tag" style="color:var(--gold)">Location Search</div>
+      <h2 class="section-title" style="color:var(--white);margin-bottom:2rem">Properties on Map</h2>
+      <div class="map-wrapper">
+        <div class="map-container">
+          <div class="map-placeholder">
+            <div class="map-grid"></div>
+            <!-- Map Pins -->
+            <div class="map-pin" style="left:25%;top:35%" onclick="showToast('₹1.2Cr — Sea View Villa')">
+              <div class="pin-price">₹1.2Cr</div>
+              <div class="pin-dot"></div>
+            </div>
+            <div class="map-pin" style="left:45%;top:25%" onclick="showToast('₹85L — City Apartment')">
+              <div class="pin-price">₹85L</div>
+              <div class="pin-dot"></div>
+            </div>
+            <div class="map-pin" style="left:60%;top:55%" onclick="showToast('₹2.5Cr — Luxury Penthouse')">
+              <div class="pin-price">₹2.5Cr</div>
+              <div class="pin-dot"></div>
+            </div>
+            <div class="map-pin" style="left:35%;top:65%" onclick="showToast('₹65L — Garden Apartment')">
+              <div class="pin-price">₹65L</div>
+              <div class="pin-dot"></div>
+            </div>
+            <div class="map-pin" style="left:72%;top:30%" onclick="showToast('₹3.8Cr — Estate Villa')">
+              <div class="pin-price">₹3.8Cr</div>
+              <div class="pin-dot"></div>
+            </div>
+            <div class="map-pin" style="left:18%;top:58%" onclick="showToast('₹45L — Starter Home')">
+              <div class="pin-price">₹45L</div>
+              <div class="pin-dot"></div>
+            </div>
+            <!-- Map Label -->
+            <div style="position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:rgba(255,255,255,0.5);padding:6px 16px;border-radius:4px;font-size:0.72rem;letter-spacing:1px">
+              INTERACTIVE MAP — CLICK PINS TO EXPLORE
+            </div>
+          </div>
+        </div>
+        <div class="map-list" id="map-list"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- AGENTS PAGE -->
+<div id="page-agents" class="page" style="padding-top:72px">
+  <section>
+    <div class="container">
+      <div class="section-tag">Our Team</div>
+      <h2 class="section-title" style="margin-bottom:0.5rem">Expert Agents</h2>
+      <p class="section-subtitle" style="margin-bottom:3rem">Certified professionals with deep local market knowledge ready to assist you.</p>
+      <div class="agents-grid" id="agents-grid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ADMIN PAGE -->
+<div id="page-admin" class="page" style="padding-top:72px">
+  <section class="admin-section">
+    <div class="container">
+      <div class="admin-layout">
+        <div class="admin-sidebar">
+          <div class="admin-user">
+            <div class="admin-avatar">AD</div>
+            <div>
+              <div class="admin-name">Admin User</div>
+              <div class="admin-role-badge">Administrator</div>
+            </div>
+          </div>
+          <ul class="admin-nav">
+            <li><a class="active" onclick="adminTab('overview',this)"><span class="nav-icon">📊</span> Overview</a></li>
+            <li><a onclick="adminTab('listings',this)"><span class="nav-icon">🏠</span> Listings</a></li>
+            <li><a onclick="adminTab('users',this)"><span class="nav-icon">👥</span> Users</a></li>
+            <li><a onclick="adminTab('enquiries',this)"><span class="nav-icon">📩</span> Enquiries</a></li>
+            <li><a onclick="adminTab('agents',this)"><span class="nav-icon">🤝</span> Agents</a></li>
+            <li><a onclick="adminTab('analytics',this)"><span class="nav-icon">📈</span> Analytics</a></li>
+            <li><a onclick="adminTab('settings',this)"><span class="nav-icon">⚙️</span> Settings</a></li>
+          </ul>
+        </div>
+        <div class="admin-main">
+          <div id="admin-overview">
+            <div class="admin-header">
+              <h3 class="admin-title">Dashboard Overview</h3>
+              <button class="btn-primary" style="padding:9px 20px;font-size:0.82rem" onclick="showToast('Add Listing form opened')">+ Add Listing</button>
+            </div>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-card-label">Total Listings</div>
+                <div class="stat-card-value">2,418</div>
+                <div class="stat-card-change up">↑ 12% this month</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card-label">Active Users</div>
+                <div class="stat-card-value">8,340</div>
+                <div class="stat-card-change up">↑ 8% this month</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card-label">Enquiries</div>
+                <div class="stat-card-value">342</div>
+                <div class="stat-card-change up">↑ 24% this month</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card-label">Revenue</div>
+                <div class="stat-card-value">₹4.2Cr</div>
+                <div class="stat-card-change down">↓ 3% this month</div>
+              </div>
+            </div>
+            <div class="admin-table-container">
+              <div class="table-header">
+                <span class="table-title">Recent Listings</span>
+                <button class="action-btn" onclick="adminTab('listings', document.querySelector('.admin-nav a:nth-child(2)'))">View All</button>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Property</th><th>Type</th><th>Price</th><th>Status</th><th>Agent</th><th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="admin-listings" style="display:none">
+            <div class="admin-header">
+              <h3 class="admin-title">All Listings</h3>
+              <button class="btn-primary" style="padding:9px 20px;font-size:0.82rem" onclick="showToast('Add Listing form opened')">+ Add Listing</button>
+            </div>
+            <div class="admin-table-container">
+              <div class="table-header">
+                <span class="table-title">Manage Listings</span>
+                <input type="text" placeholder="Search listings…" style="padding:7px 12px;border:1px solid var(--cream-dark);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none">
+              </div>
+              <table>
+                <thead>
+                  <tr><th>Property</th><th>Type</th><th>Price</th><th>Status</th><th>Agent</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="admin-listings-body"></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="admin-users" style="display:none">
+            <div class="admin-header"><h3 class="admin-title">User Management</h3></div>
+            <div class="admin-table-container">
+              <div class="table-header"><span class="table-title">Registered Users</span></div>
+              <table>
+                <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="admin-users-body"></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="admin-enquiries" style="display:none">
+            <div class="admin-header"><h3 class="admin-title">Enquiries</h3></div>
+            <div class="admin-table-container">
+              <div class="table-header"><span class="table-title">Recent Enquiries</span></div>
+              <table>
+                <thead><tr><th>From</th><th>Property</th><th>Date</th><th>Channel</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="admin-enquiries-body"></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="admin-agents" style="display:none">
+            <div class="admin-header"><h3 class="admin-title">Agent Management</h3></div>
+            <div class="admin-table-container">
+              <div class="table-header"><span class="table-title">All Agents</span></div>
+              <table>
+                <thead><tr><th>Name</th><th>Listings</th><th>Sales</th><th>Rating</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="admin-agents-body"></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="admin-analytics" style="display:none">
+            <div class="admin-header"><h3 class="admin-title">Analytics</h3></div>
+            <div class="stats-grid">
+              <div class="stat-card"><div class="stat-card-label">Page Views</div><div class="stat-card-value">48.2K</div><div class="stat-card-change up">↑ 18%</div></div>
+              <div class="stat-card"><div class="stat-card-label">Avg. Session</div><div class="stat-card-value">4:32</div><div class="stat-card-change up">↑ 5%</div></div>
+              <div class="stat-card"><div class="stat-card-label">Conversion</div><div class="stat-card-value">3.8%</div><div class="stat-card-change down">↓ 0.2%</div></div>
+              <div class="stat-card"><div class="stat-card-label">WhatsApp Leads</div><div class="stat-card-value">128</div><div class="stat-card-change up">↑ 40%</div></div>
+            </div>
+            <div class="admin-table-container" style="margin-top:1.5rem">
+              <div class="table-header"><span class="table-title">Top Performing Listings</span></div>
+              <table>
+                <thead><tr><th>Property</th><th>Views</th><th>Enquiries</th><th>Conversion</th></tr></thead>
+                <tbody>
+                  <tr><td>Sea View Luxury Villa</td><td>2,840</td><td>42</td><td><span class="status-pill status-active">5.8%</span></td></tr>
+                  <tr><td>Downtown Penthouse</td><td>2,120</td><td>35</td><td><span class="status-pill status-active">4.9%</span></td></tr>
+                  <tr><td>Beachfront Apartment</td><td>1,890</td><td>28</td><td><span class="status-pill status-active">4.2%</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="admin-settings" style="display:none">
+            <div class="admin-header"><h3 class="admin-title">Settings</h3></div>
+            <div class="admin-table-container" style="padding:2rem">
+              <div style="display:grid;gap:1.25rem;max-width:500px">
+                <div class="form-group"><label>Site Name</label><input value="EstateVista" style="background:var(--cream);border:1px solid var(--cream-dark);border-radius:var(--radius-md);padding:11px 14px;width:100%;font-family:'DM Sans',sans-serif"></div>
+                <div class="form-group"><label>Admin Email</label><input value="admin@estatevista.com" style="background:var(--cream);border:1px solid var(--cream-dark);border-radius:var(--radius-md);padding:11px 14px;width:100%;font-family:'DM Sans',sans-serif"></div>
+                <div class="form-group"><label>WhatsApp Number</label><input value="+91 98765 43210" style="background:var(--cream);border:1px solid var(--cream-dark);border-radius:var(--radius-md);padding:11px 14px;width:100%;font-family:'DM Sans',sans-serif"></div>
+                <div class="form-group"><label>Currency</label><select style="background:var(--cream);border:1px solid var(--cream-dark);border-radius:var(--radius-md);padding:11px 14px;width:100%;font-family:'DM Sans',sans-serif"><option>INR (₹)</option><option>USD ($)</option><option>EUR (€)</option></select></div>
+                <button class="btn-full" onclick="showToast('Settings saved successfully')">Save Settings</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CONTACT PAGE -->
+<div id="page-contact" class="page" style="padding-top:72px">
+  <section class="enquiry-section">
+    <div class="container">
+      <div class="enquiry-grid">
+        <div class="enquiry-info">
+          <div class="section-tag">Get in Touch</div>
+          <h2>Let's Find Your Perfect Property</h2>
+          <p>Our expert agents are ready to guide you through every step of your property journey. Reach out via your preferred channel.</p>
+          <div class="contact-methods">
+            <div class="contact-method" onclick="showToast('Opening WhatsApp…')">
+              <div class="method-icon">💬</div>
+              <div>
+                <div class="method-title">WhatsApp Us</div>
+                <div class="method-sub">+91 98765 43210 — Instant replies</div>
+              </div>
+            </div>
+            <div class="contact-method" onclick="showToast('Opening email client…')">
+              <div class="method-icon">✉️</div>
+              <div>
+                <div class="method-title">Email</div>
+                <div class="method-sub">hello@estatevista.com</div>
+              </div>
+            </div>
+            <div class="contact-method" onclick="showPage('map')">
+              <div class="method-icon">📍</div>
+              <div>
+                <div class="method-title">Visit Our Office</div>
+                <div class="method-sub">Anna Salai, Chennai, TN 600002</div>
+              </div>
+            </div>
+            <div class="contact-method" onclick="showToast('Calling +91 98765 43210…')">
+              <div class="method-icon">📞</div>
+              <div>
+                <div class="method-title">Call Us</div>
+                <div class="method-sub">+91 98765 43210 — Mon–Sat 9am–7pm</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="enquiry-form">
+          <h3>Send an Enquiry</h3>
+          <p>We'll respond within 2 hours during business hours.</p>
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input placeholder="Arjun"></div>
+            <div class="form-group"><label>Last Name</label><input placeholder="Kumar"></div>
+          </div>
+          <div class="form-group"><label>Email</label><input placeholder="arjun@email.com" type="email"></div>
+          <div class="form-group"><label>Phone</label><input placeholder="+91 98765 43210" type="tel"></div>
+          <div class="form-group">
+            <label>I'm Interested In</label>
+            <select style="width:100%;padding:11px 14px;border:1px solid var(--cream-dark);border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:0.9rem;background:var(--cream);outline:none">
+              <option>Buying a Property</option>
+              <option>Renting a Property</option>
+              <option>Selling My Property</option>
+              <option>Investment Advice</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Message</label><textarea placeholder="Tell us about your requirements…"></textarea></div>
+          <button class="btn-full" onclick="showToast('Enquiry sent! We will contact you shortly.')">Send Enquiry</button>
+          <button class="btn-wa" onclick="showToast('Opening WhatsApp chat…')" style="margin-top:0.75rem">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="auth-overlay" onclick="closeAuth(event)">
+  <div class="auth-modal">
+    <button class="auth-close" onclick="closeAuthModal()">✕</button>
+    <div id="auth-login">
+      <div class="auth-logo">Estate<span>Vista</span></div>
+      <div class="auth-sub">Sign in to your account</div>
+      <div class="form-group"><label>Email</label><input placeholder="you@example.com" type="email"></div>
+      <div class="form-group"><label>Password</label><input placeholder="••••••••" type="password"></div>
+      <button class="btn-full" onclick="loginUser()">Sign In</button>
+      <div class="auth-divider">or</div>
+      <div class="auth-switch">Don't have an account? <a onclick="showAuth('register')">Register →</a></div>
+    </div>
+    <div id="auth-register" style="display:none">
+      <div class="auth-logo">Estate<span>Vista</span></div>
+      <div class="auth-sub">Create your account</div>
+      <div class="role-selector">
+        <div class="role-btn active" onclick="selectRole(this)">
+          <div class="role-icon">🏠</div>
+          <div class="role-label">Buyer</div>
+        </div>
+        <div class="role-btn" onclick="selectRole(this)">
+          <div class="role-icon">💼</div>
+          <div class="role-label">Seller</div>
+        </div>
+        <div class="role-btn" onclick="selectRole(this)">
+          <div class="role-icon">🤝</div>
+          <div class="role-label">Agent</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input placeholder="Arjun"></div>
+        <div class="form-group"><label>Last Name</label><input placeholder="Kumar"></div>
+      </div>
+      <div class="form-group"><label>Email</label><input placeholder="you@example.com" type="email"></div>
+      <div class="form-group"><label>Phone</label><input placeholder="+91 98765 43210" type="tel"></div>
+      <div class="form-group"><label>Password</label><input placeholder="Create a strong password" type="password"></div>
+      <button class="btn-full" onclick="registerUser()">Create Account</button>
+      <div class="auth-switch" style="margin-top:1rem">Already registered? <a onclick="showAuth('login')">Sign in →</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROPERTY DETAIL MODAL -->
+<div class="detail-overlay" id="detail-overlay">
+  <button class="detail-close" onclick="closeDetail()">✕</button>
+  <div class="detail-modal" id="detail-modal"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">Estate<span>Vista</span></div>
+      <div class="footer-desc">India's premier real estate platform connecting buyers, sellers, and top agents with exceptional properties across the country.</div>
+      <div class="social-links">
+        <div class="social-btn" onclick="showToast('Opening Facebook…')">f</div>
+        <div class="social-btn" onclick="showToast('Opening Instagram…')">in</div>
+        <div class="social-btn" onclick="showToast('Opening Twitter…')">X</div>
+        <div class="social-btn" onclick="showToast('Opening LinkedIn…')">Li</div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Properties</h4>
+      <ul>
+        <li><a onclick="showPage('listings')">Buy Property</a></li>
+        <li><a onclick="showPage('listings')">Rent Property</a></li>
+        <li><a onclick="showPage('listings')">New Projects</a></li>
+        <li><a onclick="showPage('listings')">Commercial</a></li>
+        <li><a onclick="showPage('map')">Map Search</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a onclick="showToast('About Us page')">About Us</a></li>
+        <li><a onclick="showPage('agents')">Our Agents</a></li>
+        <li><a onclick="showToast('Careers page')">Careers</a></li>
+        <li><a onclick="showToast('Press page')">Press</a></li>
+        <li><a onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a onclick="showToast('Help Center')">Help Center</a></li>
+        <li><a onclick="showToast('Privacy Policy')">Privacy Policy</a></li>
+        <li><a onclick="showToast('Terms of Service')">Terms of Service</a></li>
+        <li><a onclick="showToast('Cookie Policy')">Cookie Policy</a></li>
+        <li><a onclick="showAuth('login')">My Account</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 EstateVista. All rights reserved. Made with ♥ in India.</div>
+    <button class="footer-wa" onclick="showToast('Opening WhatsApp…')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Chat on WhatsApp
+    </button>
+  </div>
+</footer>
+
+<script>
+// DATA
+const properties = [
+  { id:1, title:"Sea View Luxury Villa", location:"Besant Nagar, Chennai", price:"₹2.8 Cr", priceNum:28000000, type:"villa", status:"sale", beds:4, baths:4, sqft:3200, featured:true, agent:"Priya S", agentInit:"PS", icon:"🏡", img:"https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80", desc:"Stunning 4BHK villa with panoramic sea views, private pool, modular kitchen, and landscaped garden in one of Chennai's most prestigious neighbourhoods." },
+  { id:2, title:"Downtown Penthouse", location:"T Nagar, Chennai", price:"₹4.5 Cr", priceNum:45000000, type:"penthouse", status:"sale", beds:3, baths:3, sqft:2800, featured:true, agent:"Rahul M", agentInit:"RM", icon:"🏙️", img:"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80", desc:"Ultra-luxury penthouse on the 28th floor with 360° city views, private terrace, smart home automation, and premium finishes throughout." },
+  { id:3, title:"Garden Apartment", location:"Adyar, Chennai", price:"₹85 L", priceNum:8500000, type:"apartment", status:"sale", beds:3, baths:2, sqft:1650, featured:false, agent:"Ananya R", agentInit:"AR", icon:"🌿", img:"https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=800&q=80", desc:"Beautifully designed 3BHK apartment in a gated community with lush garden views, clubhouse, swimming pool, and 24/7 security." },
+  { id:4, title:"Modern Studio Loft", location:"Nungambakkam, Chennai", price:"₹45K/mo", priceNum:45000, type:"apartment", status:"rent", beds:1, baths:1, sqft:720, featured:false, agent:"Kiran T", agentInit:"KT", icon:"🏢", img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80", desc:"Stylish studio loft in a prime central location. Perfect for working professionals. Fully furnished with high-speed internet and gym access included." },
+  { id:5, title:"Heritage Bungalow", location:"Mylapore, Chennai", price:"₹6.2 Cr", priceNum:62000000, type:"villa", status:"sale", beds:5, baths:5, sqft:4800, featured:true, agent:"Priya S", agentInit:"PS", icon:"🏛️", img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80", desc:"Rare heritage bungalow in the heart of Mylapore with original architectural details, courtyard, modern upgrades, and a large private compound." },
+  { id:6, title:"Lakeside Apartment", location:"OMR, Chennai", price:"₹1.2 Cr", priceNum:12000000, type:"apartment", status:"new", beds:3, baths:2, sqft:1400, featured:false, agent:"Rahul M", agentInit:"RM", icon:"💧", img:"https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=800&q=80", desc:"Brand new lakeside apartment in an upcoming IT corridor township. Pre-launch prices, RERA approved, amenities include rooftop infinity pool." },
+  { id:7, title:"Compact 2BHK Flat", location:"Porur, Chennai", price:"₹55 L", priceNum:5500000, type:"apartment", status:"sale", beds:2, baths:2, sqft:950, featured:false, agent:"Ananya R", agentInit:"AR", icon:"🏠", img:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80", desc:"Smartly designed 2BHK in a well-maintained society. Ideal for young families. Walking distance from metro station and top schools." },
+  { id:8, title:"Beachfront Duplex", location:"ECR, Chennai", price:"₹3.4 Cr", priceNum:34000000, type:"villa", status:"sale", beds:4, baths:3, sqft:2600, featured:true, agent:"Kiran T", agentInit:"KT", icon:"🌊", img:"https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80", desc:"Magnificent duplex villa on the East Coast Road with direct beach access, private pool, entertainment deck, and stunning Bay of Bengal views." },
+  { id:9, title:"Tech Park Studio", location:"Sholinganallur, Chennai", price:"₹28K/mo", priceNum:28000, type:"apartment", status:"rent", beds:1, baths:1, sqft:550, featured:false, agent:"Priya S", agentInit:"PS", icon:"💻", img:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80", desc:"Affordable furnished studio ideal for IT professionals. Minutes from major tech parks. Metro connectivity, high-speed WiFi included." },
+  { id:10, title:"Smart Townhouse", location:"Velachery, Chennai", price:"₹1.85 Cr", priceNum:18500000, type:"villa", status:"new", beds:3, baths:3, sqft:2100, featured:false, agent:"Rahul M", agentInit:"RM", icon:"🏘️", img:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=80", desc:"Contemporary 3-floor townhouse with private courtyard, rooftop garden, EV charging point, and smart home features in a new gated project." },
+  { id:11, title:"Investor's Land Plot", location:"Mahabalipuram, TN", price:"₹75 L", priceNum:7500000, type:"plot", status:"sale", beds:0, baths:0, sqft:4000, featured:false, agent:"Kiran T", agentInit:"KT", icon:"🗺️", img:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80", desc:"Prime 4000 sqft DTCP-approved plot near Mahabalipuram. Excellent investment opportunity in a high-growth tourism corridor. Clear title." },
+  { id:12, title:"Luxury Golf Villa", location:"Perungudi, Chennai", price:"₹8.5 Cr", priceNum:85000000, type:"villa", status:"sale", beds:5, baths:5, sqft:6000, featured:true, agent:"Ananya R", agentInit:"AR", icon:"⛳", img:"https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80", desc:"Spectacular 6000 sqft villa overlooking a private golf course. Five bedrooms, cinema room, wine cellar, staff quarters, and three-car garage." },
+];
+
+const agents = [
+  { name:"Priya Sundaram", title:"Senior Property Consultant", listings:48, sales:124, rating:"4.9", init:"PS", img:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80" },
+  { name:"Rahul Menon", title:"Luxury Real Estate Specialist", listings:35, sales:98, rating:"4.8", init:"RM", img:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80" },
+  { name:"Ananya Reddy", title:"Residential Expert", listings:62, sales:156, rating:"5.0", init:"AR", img:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80" },
+  { name:"Kiran Thakur", title:"Commercial & Plots", listings:29, sales:72, rating:"4.7", init:"KT", img:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80" },
+];
+
+let favorites = new Set();
+let currentFilter = 'all';
+let currentProps = [...properties];
+
+function makeCard(p, showFull = true) {
+  const isFav = favorites.has(p.id);
+  return `
+    <div class="property-card" onclick="showDetail(${p.id})">
+      <div class="card-image">
+        <img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="card-img-placeholder" style="display:none;background:linear-gradient(135deg,${getGrad(p.id)})">
+          <span style="font-size:4rem;opacity:0.4">${p.icon}</span>
+        </div>
+        <div class="card-badge ${p.status==='sale'?'sale':''}">${statusLabel(p.status)}</div>
+        <div class="card-fav ${isFav?'active':''}" onclick="toggleFav(event,${p.id})">♥</div>
+        <div class="card-price-overlay"><div class="card-price">${p.price}</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${p.title}</div>
+        <div class="card-location">${p.location}</div>
+        ${p.beds>0?`<div class="card-specs">
+          <div class="spec"><span class="spec-icon">🛏</span> <strong>${p.beds}</strong> Beds</div>
+          <div class="spec"><span class="spec-icon">🚿</span> <strong>${p.baths}</strong> Baths</div>
+          <div class="spec"><span class="spec-icon">📐</span> <strong>${p.sqft.toLocaleString()}</strong> sqft</div>
+        </div>`:'<div class="card-specs"><div class="spec"><span class="spec-icon">📐</span> <strong>'+p.sqft.toLocaleString()+'</strong> sqft — Plot</div></div>'}
+        <div class="card-agent">
+          <div class="agent-avatar">${p.agentInit}</div>
+          <div class="agent-info">
+            <div class="agent-name">${p.agent}</div>
+            <div class="agent-role">Listing Agent</div>
+          </div>
+          <button class="card-wa" onclick="event.stopPropagation();showToast('Opening WhatsApp for ${p.title}…')">💬 WhatsApp</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function getGrad(id) {
+  const grads = [
+    '#1a2a3a,#0a1520','#2a1a3a,#1a0a2a','#1a3a2a,#0a2015',
+    '#3a2a1a,#2a1a0a','#1a2a4a,#0a1530','#3a1a2a,#2a0a18',
+  ];
+  return grads[id % grads.length];
+}
+
+function statusLabel(s) {
+  return {sale:'For Sale',rent:'For Rent',new:'New Launch',featured:'Featured'}[s] || 'For Sale';
+}
+
+function renderHome() {
+  const featured = properties.filter(p=>p.featured).slice(0,3);
+  document.getElementById('home-featured').innerHTML = featured.map(p=>makeCard(p)).join('');
+  document.getElementById('home-agents').innerHTML = agents.slice(0,4).map(makeAgentCard).join('');
+}
+
+function renderListings() {
+  document.getElementById('listings-grid').innerHTML = currentProps.map(p=>makeCard(p)).join('');
+  document.getElementById('prop-count').textContent = currentProps.length;
+}
+
+function filterStatus(status, btn) {
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = status;
+  applyFilters();
+}
+
+function filterProperties(val, key) {
+  applyFilters();
+}
+
+function applyFilters() {
+  let filtered = properties;
+  if (currentFilter !== 'all') filtered = filtered.filter(p => p.status === currentFilter || (currentFilter === 'featured' && p.featured));
+  document.getElementById('listings-grid').innerHTML = filtered.map(p=>makeCard(p)).join('');
+  document.getElementById('prop-count').textContent = filtered.length;
+  currentProps = filtered;
+}
+
+function makeAgentCard(a) {
+  return `
+    <div class="agent-card">
+      <div class="agent-photo" style="overflow:hidden;background:var(--gold)">
+        <img src="${a.img}" alt="${a.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.style.display='none';this.parentElement.textContent='${a.init}'">
+      </div>
+      <div class="agent-card-name">${a.name}</div>
+      <div class="agent-card-title">${a.title}</div>
+      <div class="agent-stats-row">
+        <div><div class="agent-stat-num">${a.listings}</div><div class="agent-stat-label">Listings</div></div>
+        <div><div class="agent-stat-num">${a.sales}</div><div class="agent-stat-label">Sales</div></div>
+        <div><div class="agent-stat-num">⭐ ${a.rating}</div><div class="agent-stat-label">Rating</div></div>
+      </div>
+      <button class="btn-agent" onclick="showToast('Contact request sent to ${a.name}')">Contact Agent</button>
+    </div>`;
+}
+
+function renderAgents() {
+  document.getElementById('agents-grid').innerHTML = agents.map(makeAgentCard).join('');
+}
+
+function renderMap() {
+  const mapProps = properties.slice(0,6);
+  document.getElementById('map-list').innerHTML = mapProps.map(p=>`
+    <div class="map-card" onclick="showDetail(${p.id})">
+      <div class="map-card-img" style="overflow:hidden;background:linear-gradient(135deg,${getGrad(p.id)});display:flex;align-items:center;justify-content:center">
+        <img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.parentElement.textContent='${p.icon}'">
+      </div>
+      <div class="map-card-info">
+        <div class="map-card-price">${p.price}</div>
+        <div class="map-card-title">${p.title}</div>
+        <div class="map-card-loc">${p.location}</div>
+        <div style="margin-top:6px;font-size:0.72px">
+          ${p.beds>0?`<span style="color:rgba(255,255,255,0.4);font-size:0.72rem">${p.beds}bd · ${p.baths}ba · ${p.sqft.toLocaleString()} sqft</span>`:''}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderAdmin() {
+  const rows = properties.slice(0,5).map(p=>`
+    <tr>
+      <td><strong>${p.title}</strong><br><span style="font-size:0.75rem;color:var(--text-muted)">${p.location}</span></td>
+      <td style="text-transform:capitalize">${p.type}</td>
+      <td>${p.price}</td>
+      <td><span class="status-pill ${p.status==='sale'?'status-active':p.status==='rent'?'status-pending':'status-active'}">${statusLabel(p.status)}</span></td>
+      <td>${p.agent}</td>
+      <td style="display:flex;gap:6px">
+        <button class="action-btn" onclick="showToast('Editing ${p.title}')">Edit</button>
+        <button class="action-btn del" onclick="showToast('${p.title} removed')">Delete</button>
+      </td>
+    </tr>`).join('');
+  document.getElementById('admin-table-body').innerHTML = rows;
+  document.getElementById('admin-listings-body').innerHTML = properties.map(p=>`
+    <tr>
+      <td><strong>${p.title}</strong><br><span style="font-size:0.75rem;color:var(--text-muted)">${p.location}</span></td>
+      <td style="text-transform:capitalize">${p.type}</td>
+      <td>${p.price}</td>
+      <td><span class="status-pill ${p.status==='rent'?'status-pending':'status-active'}">${statusLabel(p.status)}</span></td>
+      <td>${p.agent}</td>
+      <td style="display:flex;gap:6px">
+        <button class="action-btn" onclick="showToast('Editing listing')">Edit</button>
+        <button class="action-btn del" onclick="showToast('Listing removed')">Delete</button>
+      </td>
+    </tr>`).join('');
+
+  const users = [
+    {name:'Arjun Kumar',email:'arjun@email.com',role:'Buyer',joined:'Jan 2025',status:'active'},
+    {name:'Meera Nair',email:'meera@email.com',role:'Seller',joined:'Feb 2025',status:'active'},
+    {name:'Priya Sundaram',email:'priya@ev.com',role:'Agent',joined:'Mar 2024',status:'active'},
+    {name:'Raj Verma',email:'raj@email.com',role:'Buyer',joined:'Mar 2025',status:'pending'},
+  ];
+  document.getElementById('admin-users-body').innerHTML = users.map(u=>`
+    <tr>
+      <td><strong>${u.name}</strong></td>
+      <td>${u.email}</td>
+      <td><span class="status-pill ${u.role==='Agent'?'status-pending':'status-active'}">${u.role}</span></td>
+      <td>${u.joined}</td>
+      <td><span class="status-pill ${u.status==='active'?'status-active':'status-pending'}">${u.status}</span></td>
+      <td><button class="action-btn" onclick="showToast('Managing user')">Manage</button></td>
+    </tr>`).join('');
+
+  const enqs = [
+    {from:'Arjun Kumar',prop:'Sea View Villa',date:'Apr 15',channel:'WhatsApp',status:'pending'},
+    {from:'Meera Nair',prop:'Downtown Penthouse',date:'Apr 14',channel:'Form',status:'active'},
+    {from:'Raj Verma',prop:'Garden Apartment',date:'Apr 13',channel:'Phone',status:'active'},
+    {from:'Divya S',prop:'Luxury Golf Villa',date:'Apr 12',channel:'WhatsApp',status:'pending'},
+  ];
+  document.getElementById('admin-enquiries-body').innerHTML = enqs.map(e=>`
+    <tr>
+      <td><strong>${e.from}</strong></td>
+      <td>${e.prop}</td>
+      <td>${e.date}</td>
+      <td><span class="status-pill ${e.channel==='WhatsApp'?'status-active':'status-pending'}">${e.channel}</span></td>
+      <td><span class="status-pill ${e.status==='active'?'status-active':'status-pending'}">${e.status}</span></td>
+      <td><button class="action-btn" onclick="showToast('Responding to enquiry')">Respond</button></td>
+    </tr>`).join('');
+
+  document.getElementById('admin-agents-body').innerHTML = agents.map(a=>`
+    <tr>
+      <td><strong>${a.name}</strong></td>
+      <td>${a.listings}</td>
+      <td>${a.sales}</td>
+      <td>⭐ ${a.rating}</td>
+      <td><span class="status-pill status-active">Active</span></td>
+      <td><button class="action-btn" onclick="showToast('Viewing ${a.name} profile')">View</button></td>
+    </tr>`).join('');
+}
+
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  const navEl = document.getElementById('nav-'+page);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo(0,0);
+  if (page==='listings') renderListings();
+  if (page==='map') renderMap();
+  if (page==='agents') renderAgents();
+  if (page==='admin') renderAdmin();
+}
+
+function adminTab(tab, el) {
+  ['overview','listings','users','enquiries','agents','analytics','settings'].forEach(t=>{
+    document.getElementById('admin-'+t).style.display = t===tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.admin-nav a').forEach(a=>a.classList.remove('active'));
+  if (el) el.classList.add('active');
+}
+
+function showDetail(id) {
+  const p = properties.find(x=>x.id===id);
+  if (!p) return;
+  document.getElementById('detail-modal').innerHTML = `
+    <div class="detail-image" style="background:linear-gradient(135deg,${getGrad(p.id)});position:relative;overflow:hidden">
+      <img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" onerror="this.style.display='none'">
+      <span style="position:relative;z-index:1">${p.icon}</span>
+      <div class="detail-image-badge">${statusLabel(p.status)}</div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-header">
+        <div>
+          <div class="detail-title">${p.title}</div>
+          <div class="detail-loc">📍 ${p.location}</div>
+        </div>
+        <div class="detail-price">${p.price}</div>
+      </div>
+      ${p.beds>0?`<div class="detail-features">
+        <div class="detail-feature"><div class="detail-feat-icon">🛏</div><div class="detail-feat-val">${p.beds}</div><div class="detail-feat-label">Bedrooms</div></div>
+        <div class="detail-feature"><div class="detail-feat-icon">🚿</div><div class="detail-feat-val">${p.baths}</div><div class="detail-feat-label">Bathrooms</div></div>
+        <div class="detail-feature"><div class="detail-feat-icon">📐</div><div class="detail-feat-val">${p.sqft.toLocaleString()}</div><div class="detail-feat-label">Sq Ft</div></div>
+        <div class="detail-feature"><div class="detail-feat-icon">🏡</div><div class="detail-feat-val" style="text-transform:capitalize">${p.type}</div><div class="detail-feat-label">Type</div></div>
+      </div>`:''}
+      <p class="detail-desc">${p.desc}</p>
+      <div style="display:flex;align-items:center;gap:12px;padding:1rem;background:var(--cream);border-radius:var(--radius-md);margin-bottom:1.5rem">
+        <div class="agent-avatar" style="width:44px;height:44px;font-size:0.85rem">${p.agentInit}</div>
+        <div>
+          <div style="font-weight:500;font-size:0.9rem">${p.agent}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted)">Listing Agent</div>
+        </div>
+        <button class="card-wa" style="margin-left:auto" onclick="showToast('Opening WhatsApp for this property…')">💬 WhatsApp Agent</button>
+      </div>
+      <div class="detail-actions">
+        <button class="btn-enquire" onclick="showPage('contact');closeDetail()">Send Enquiry</button>
+        <button class="btn-enquire" style="background:var(--gold);color:var(--charcoal)" onclick="showToast('Scheduling site visit for ${p.title}')">Schedule Visit</button>
+        <button class="btn-wa" style="flex:none;padding:13px 20px" onclick="showToast('Opening WhatsApp…')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Chat
+        </button>
+      </div>
+    </div>`;
+  document.getElementById('detail-overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail() {
+  document.getElementById('detail-overlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function toggleFav(e, id) {
+  e.stopPropagation();
+  if (favorites.has(id)) { favorites.delete(id); showToast('Removed from favourites'); }
+  else { favorites.add(id); showToast('Added to favourites ♥'); }
+  renderHome(); renderListings();
+}
+
+function showAuth(type) {
+  document.getElementById('auth-overlay').classList.add('show');
+  document.getElementById('auth-login').style.display = type==='login' ? 'block' : 'none';
+  document.getElementById('auth-register').style.display = type==='register' ? 'block' : 'none';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAuth(e) {
+  if (e.target === document.getElementById('auth-overlay')) closeAuthModal();
+}
+
+function closeAuthModal() {
+  document.getElementById('auth-overlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function loginUser() {
+  closeAuthModal();
+  showToast('Welcome back! You are signed in.');
+}
+
+function registerUser() {
+  closeAuthModal();
+  showToast('Account created successfully! Welcome to EstateVista.');
+}
+
+function selectRole(el) {
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function setTab(btn, type) {
+  document.querySelectorAll('.search-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+function toggleMobileMenu() {
+  const links = document.querySelector('.nav-links');
+  links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  links.style.flexDirection = 'column';
+  links.style.position = 'fixed';
+  links.style.top = '72px';
+  links.style.left = '0';
+  links.style.right = '0';
+  links.style.background = 'rgba(26,26,26,0.98)';
+  links.style.padding = '1rem 2rem';
+  links.style.gap = '1rem';
+}
+
+// INIT
+renderHome();
+</script>
+</body>
+</html>
